@@ -1,0 +1,28 @@
+service: demo-identifier-resolver
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: ${opt:stage, 'stg'}
+  region: ap-southeast-1
+functions:
+  getProfile:
+    handler: src/functionHandlers/getProfile/index.handler
+    events:
+      - http:
+          path: /identifier/{id}
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                id: true
+
+custom:
+  webpack:
+    includeModules: true
+
+plugins:
+  - serverless-webpack
+  - serverless-dotenv-plugin
+  - serverless-offline
