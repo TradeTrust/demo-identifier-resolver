@@ -13,4 +13,4 @@ jobs:
           command: npm run test
       - run:
           name: deploy_staging
-          command: ./scripts/deploy_staging
+          command: scripts/deploy_staging
