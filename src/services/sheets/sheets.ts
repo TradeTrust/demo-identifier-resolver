@@ -1,12 +1,21 @@
 import { google } from "googleapis";
 import { zipObject } from "lodash";
-import { config } from "../../config";
 
 const sheets = google.sheets("v4");
 
-export async function sheetsToJson<T>({ id, range, keyBy }: { id: string; range: string; keyBy: string }) {
+export async function sheetsToJson<T>({
+  sheetsApiKey,
+  id,
+  range,
+  keyBy
+}: {
+  sheetsApiKey: string;
+  id: string;
+  range: string;
+  keyBy: string;
+}) {
   const { data } = await sheets.spreadsheets.values.get({
-    auth: config.sheetsApiKey,
+    auth: sheetsApiKey,
     spreadsheetId: id,
     range
   });

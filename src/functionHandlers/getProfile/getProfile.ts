@@ -21,6 +21,7 @@ const getIdentifier = async (event: APIGatewayEvent) => {
   const identities = await memoize(
     () =>
       sheetsToJson<Identities>({
+        sheetsApiKey: event.headers.sheetsApiKey || config.sheetsApiKey,
         id: config.sheetsId,
         range: config.sheetsRange,
         keyBy: "identifier"
