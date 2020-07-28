@@ -22,5 +22,5 @@ jobs:
     - run: npm run lint
     - run: npm run typecheck
     # - run: npm run dynamodb-local-setup
-    - run: npm run test:ci
+    # - run: npm run test:ci
     - run: npm run sls-config-check
