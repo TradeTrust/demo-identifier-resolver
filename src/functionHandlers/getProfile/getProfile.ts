@@ -1,5 +1,6 @@
 import { APIGatewayEvent } from "aws-lambda";
 import createHttpError from "http-errors";
+import { isEmpty } from "lodash";
 import { publicRequestHandler } from "../../middlewares/handlers";
 import { sheetsToJson } from "../../services/sheets";
 import { config } from "../../config";
@@ -19,21 +20,19 @@ const getIdentifier = async (event: APIGatewayEvent) => {
     throw new createHttpError.BadRequest("Identifier is not provided");
   }
 
-  const apiKey =
-    event.headers["x-api-key"] ||
-    event.headers.Authorization ||
-    event.headers["api-key"] ||
-    event.headers.apikey ||
-    config.sheetsApiKey;
+  const apiKey = event.headers["x-api-key"] ?? undefined;
 
-  if (!apiKey) {
-    throw new Error("API key is not provided");
+  if (apiKey === undefined) {
+    throw new createHttpError.BadRequest("API key header is not provided");
+  }
+
+  if (isEmpty(apiKey)) {
+    throw new createHttpError.BadRequest("API key value should not be empty");
   }
 
   const identities = await memoize(
     () =>
       sheetsToJson<Identities>({
-        sheetsApiKey: apiKey,
         id: config.sheetsId,
         range: config.sheetsRange,
         keyBy: "identifier"
