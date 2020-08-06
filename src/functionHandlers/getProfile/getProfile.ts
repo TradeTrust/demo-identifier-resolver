@@ -1,6 +1,5 @@
 import { APIGatewayEvent } from "aws-lambda";
 import createHttpError from "http-errors";
-import { isEmpty } from "lodash";
 import { publicRequestHandler } from "../../middlewares/handlers";
 import { sheetsToJson } from "../../services/sheets";
 import { config } from "../../config";
@@ -20,14 +19,10 @@ const getIdentifier = async (event: APIGatewayEvent) => {
     throw new createHttpError.BadRequest("Identifier is not provided");
   }
 
-  const apiKey = event.headers["x-api-key"] ?? undefined;
+  const apiKey = event.headers["x-api-key"];
 
-  if (apiKey === undefined) {
-    throw new createHttpError.BadRequest("API key header is not provided");
-  }
-
-  if (isEmpty(apiKey)) {
-    throw new createHttpError.BadRequest("API key value should not be empty");
+  if (!apiKey) {
+    throw new createHttpError.BadRequest("API key is not provided testing");
   }
 
   const identities = await memoize(
