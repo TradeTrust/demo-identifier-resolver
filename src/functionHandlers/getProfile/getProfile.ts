@@ -22,7 +22,11 @@ const getIdentifier = async (event: APIGatewayEvent) => {
   const apiKey = event.headers["x-api-key"];
 
   if (!apiKey) {
-    throw new createHttpError.BadRequest("API key is not provided testing");
+    throw new createHttpError.BadRequest("API key is not provided");
+  }
+
+  if (apiKey !== "DEMO") {
+    throw new createHttpError.BadRequest("API key provided is not valid");
   }
 
   const identities = await memoize(
