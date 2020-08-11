@@ -18,6 +18,17 @@ const getIdentifier = async (event: APIGatewayEvent) => {
   if (!id) {
     throw new createHttpError.BadRequest("Identifier is not provided");
   }
+
+  const apiKey = event.headers["x-api-key"];
+
+  if (!apiKey) {
+    throw new createHttpError.BadRequest("API key is not provided");
+  }
+
+  if (apiKey !== "DEMO") {
+    throw new createHttpError.BadRequest("API key provided is not valid");
+  }
+
   const identities = await memoize(
     () =>
       sheetsToJson<Identities>({
