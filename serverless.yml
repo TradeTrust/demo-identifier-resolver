@@ -17,6 +17,17 @@ functions:
             parameters:
               paths:
                 id: true
+  searchProfiles:
+    handler: src/functionHandlers/searchProfiles/index.handler
+    events:
+      - http:
+          path: /search
+          method: get
+          cors: true
+          request:
+            parameters:
+              paths:
+                id: true
 
 custom:
   webpack:
