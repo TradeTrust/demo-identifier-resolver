@@ -1,6 +1,6 @@
 import { APIGatewayEvent } from "aws-lambda";
 import createHttpError from "http-errors";
-import { publicRequestHandler } from "../../middlewares/handlers";
+import { restrictedRequestHandler } from "../../middlewares/handlers";
 import { sheetsToJson } from "../../services/sheets";
 import { config } from "../../config";
 import { memoize } from "../../common/utils";
@@ -17,16 +17,6 @@ const getIdentifier = async (event: APIGatewayEvent) => {
   const { id } = event.pathParameters ?? { id: undefined };
   if (!id) {
     throw new createHttpError.BadRequest("Identifier is not provided");
-  }
-
-  const apiKey = event.headers["x-api-key"];
-
-  if (!apiKey) {
-    throw new createHttpError.BadRequest("API key is not provided");
-  }
-
-  if (apiKey !== "DEMO") {
-    throw new createHttpError.BadRequest("API key provided is not valid");
   }
 
   const identities = await memoize(
@@ -46,4 +36,4 @@ const getIdentifier = async (event: APIGatewayEvent) => {
   return { identity };
 };
 
-export const handler = publicRequestHandler(getIdentifier);
+export const handler = restrictedRequestHandler(getIdentifier);
