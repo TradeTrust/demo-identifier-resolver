@@ -1,7 +1,5 @@
 import { withAuth } from "./withAuth";
 
-const context = { awsRequestId: "request-id" };
-
 describe("withAuth", () => {
   describe("before", () => {
     it("should pass with correct api key", async () => {
