@@ -22,7 +22,7 @@ const searchProfiles = async (event: APIGatewayEvent) => {
 
   const lowercaseQuery = query.toLowerCase();
 
-  const identities = await memoize(
+  const allResults = await memoize(
     () =>
       sheetsToJson<Identities>({
         id: config.sheetsId,
@@ -32,14 +32,16 @@ const searchProfiles = async (event: APIGatewayEvent) => {
     "IDENTITIES"
   );
 
-  return Object.keys(identities)
-    .map(address => identities[address])
+  const identities = Object.keys(allResults)
+    .map(address => allResults[address])
     .filter(
       identity =>
         identity.name.toLowerCase().includes(lowercaseQuery) ||
         identity.remarks.toLowerCase().includes(lowercaseQuery) ||
         identity.identifier.toLowerCase().includes(lowercaseQuery)
     );
+
+  return { identities };
 };
 
 export const handler = restrictedRequestHandler(searchProfiles);
