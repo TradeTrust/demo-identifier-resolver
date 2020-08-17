@@ -6,14 +6,14 @@ jobs:
     steps:
       - checkout
       - run:
-        name: install
-        command: npm install
+          name: install
+          command: npm install
       - run:
-        name: test
-        command: npm run test
+          name: test
+          command: npm run test
       - run:
-        filters:
-          branches:
-            only: master
-        name: deploy_staging
-        command: ./scripts/deploy_staging.sh
+          filters:
+            branches:
+              only: master
+          name: deploy_staging
+          command: ./scripts/deploy_staging.sh
