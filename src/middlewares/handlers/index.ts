@@ -6,7 +6,7 @@ import { withAuth } from "../withAuth";
 
 export const restrictedRequestHandler = (handler: any) =>
   middy(handler)
-    .use(cors({ headers: "Access-Control-Allow-Headers" }))
+    .use(cors())
     .use(httpSecurityHeaders())
     .use(withAuth())
     .use(withBoundary());
