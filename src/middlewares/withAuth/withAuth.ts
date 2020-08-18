@@ -11,7 +11,7 @@ export const withAuth = (): OnlyAuthorizedOperatorSessionMiddleware<any, any> =>
     const apiKey = event.headers["x-api-key"];
 
     if (!apiKey) {
-      throw new createHttpError.BadRequest("API key is not provided testing");
+      throw new createHttpError.BadRequest("API key is not provided");
     }
 
     if (apiKey !== "DEMO") {
