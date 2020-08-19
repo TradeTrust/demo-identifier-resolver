@@ -21,6 +21,7 @@
   "dependencies": {
     "@hapi/joi": "^16.1.8",
     "@middy/core": "^1.2.0",
+    "@middy/http-cors": "^1.2.0",
     "@middy/http-error-handler": "^1.2.0",
     "@middy/http-security-headers": "^1.2.0",
     "axios": "^0.19.2",
