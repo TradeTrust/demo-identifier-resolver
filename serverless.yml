@@ -21,7 +21,6 @@ functions:
               - X-Api-Key
               - X-Amz-Security-Token
               - X-Amz-User-Agent
-              - Cac
               - Cache-Control
               - Origin
             allowCredentials: false
@@ -44,7 +43,6 @@ functions:
               - X-Api-Key
               - X-Amz-Security-Token
               - X-Amz-User-Agent
-              - Cac
               - Cache-Control
               - Origin
             allowCredentials: false
