@@ -12,7 +12,19 @@ functions:
       - http:
           path: /identifier/{id}
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - Cac
+              - Cache-Control
+              - Origin
+            allowCredentials: false
           request:
             parameters:
               paths:
@@ -23,7 +35,19 @@ functions:
       - http:
           path: /search
           method: get
-          cors: true
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - Cac
+              - Cache-Control
+              - Origin
+            allowCredentials: false
 
 custom:
   webpack:
