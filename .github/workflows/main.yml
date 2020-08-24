@@ -28,4 +28,10 @@ jobs:
         with:
           node-version: "12.x"
       - run: npm install
-      - run: ./scripts/deploy_staging.sh
+      - env:
+          STAGING_AWS_ACCESS_KEY_ID: ${{ secrets.STAGING_AWS_ACCESS_KEY_ID }}
+          STAGING_AWS_SECRET_ACCESS_KEY: ${{ secrets.STAGING_AWS_SECRET_ACCESS_KEY }}
+          SHEETS_API_KEY: ${{ secrets.SHEETS_API_KEY }}
+          SHEETS_ID: ${{ secrets.SHEETS_ID }}
+          SHEETS_RANGE: ${{ secrets.SHEETS_RANGE }}
+        run: ./scripts/deploy_staging.sh
