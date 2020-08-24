@@ -6,6 +6,24 @@ provider:
   stage: ${opt:stage, 'stg'}
   region: ap-southeast-1
 functions:
+  getFeatures:
+    handler: src/functionHandlers/getFeatures/index.handler
+    events:
+      - http:
+          path: /
+          method: get
+          cors:
+            origin: '*'
+            headers:
+              - Content-Type
+              - X-Amz-Date
+              - Authorization
+              - X-Api-Key
+              - X-Amz-Security-Token
+              - X-Amz-User-Agent
+              - Cache-Control
+              - Origin
+            allowCredentials: false
   getProfile:
     handler: src/functionHandlers/getProfile/index.handler
     events:
