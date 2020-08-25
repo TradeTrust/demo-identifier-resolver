@@ -14,7 +14,7 @@ describe("withBoundary", () => {
           body: `{"foo":"bar"}`,
           headers: {
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Credentials": true
+            "Access-Control-Allow-Credentials": false
           }
         }
       });
@@ -28,7 +28,7 @@ describe("withBoundary", () => {
           statusCode: 200,
           headers: {
             "Access-Control-Allow-Origin": "*",
-            "Access-Control-Allow-Credentials": true
+            "Access-Control-Allow-Credentials": false
           }
         }
       });
@@ -44,7 +44,7 @@ describe("withBoundary", () => {
         body: `{"requestId":"request-id"}`,
         headers: {
           "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true
+          "Access-Control-Allow-Credentials": false
         }
       });
     });
@@ -57,7 +57,7 @@ describe("withBoundary", () => {
         body: `{"requestId":"request-id"}`,
         headers: {
           "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true
+          "Access-Control-Allow-Credentials": false
         }
       });
     });
@@ -70,7 +70,7 @@ describe("withBoundary", () => {
         body: `{"requestId":"request-id","message":"Boom!"}`,
         headers: {
           "Access-Control-Allow-Origin": "*",
-          "Access-Control-Allow-Credentials": true
+          "Access-Control-Allow-Credentials": false
         }
       });
     });

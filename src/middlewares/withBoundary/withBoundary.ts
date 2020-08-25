@@ -10,7 +10,7 @@ interface OnlyAuthorizedOperatorSessionMiddleware<T, R> extends MiddlewareObject
 
 const CORS_HEADERS = {
   "Access-Control-Allow-Origin": "*",
-  "Access-Control-Allow-Credentials": true
+  "Access-Control-Allow-Credentials": false
 };
 
 export const withBoundary = (): OnlyAuthorizedOperatorSessionMiddleware<any, any> => ({
