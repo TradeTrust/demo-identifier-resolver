@@ -8,6 +8,11 @@ interface OnlyAuthorizedOperatorSessionMiddleware<T, R> extends MiddlewareObject
   onError: MiddlewareFunction<T, R>;
 }
 
+const CORS_HEADERS = {
+  "Access-Control-Allow-Origin": "*",
+  "Access-Control-Allow-Credentials": false
+};
+
 export const withBoundary = (): OnlyAuthorizedOperatorSessionMiddleware<any, any> => ({
   after: async handler => {
     const { response } = handler;
@@ -15,11 +20,13 @@ export const withBoundary = (): OnlyAuthorizedOperatorSessionMiddleware<any, any
     if (response !== undefined) {
       handler.response = {
         statusCode: 200,
+        headers: CORS_HEADERS,
         body: JSON.stringify(response)
       };
     } else {
       handler.response = {
-        statusCode: 200
+        statusCode: 200,
+        headers: CORS_HEADERS
       };
     }
   },
@@ -59,6 +66,7 @@ export const withBoundary = (): OnlyAuthorizedOperatorSessionMiddleware<any, any
       case expected && exposed:
         handler.response = {
           statusCode,
+          headers: CORS_HEADERS,
           body: JSON.stringify({
             requestId,
             message
@@ -68,6 +76,7 @@ export const withBoundary = (): OnlyAuthorizedOperatorSessionMiddleware<any, any
       case expected && !exposed:
         handler.response = {
           statusCode,
+          headers: CORS_HEADERS,
           body: JSON.stringify({
             requestId
           })
@@ -76,6 +85,7 @@ export const withBoundary = (): OnlyAuthorizedOperatorSessionMiddleware<any, any
       default:
         handler.response = {
           statusCode: 500,
+          headers: CORS_HEADERS,
           body: JSON.stringify({
             requestId
           })
