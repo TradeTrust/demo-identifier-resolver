@@ -8,6 +8,7 @@ import { memoize } from "../../common/utils";
 interface Identity {
   name: string;
   remarks: string;
+  source: string;
   identifier: string;
 }
 
@@ -32,13 +33,19 @@ const searchProfiles = async (event: APIGatewayEvent) => {
     "IDENTITIES"
   );
 
+  const isQueryMatch = (field: string | undefined, queryText: string) => {
+    if (field === undefined) return false; // skip if google sheet cell is undefined
+    return field.toLowerCase().includes(queryText);
+  };
+
   const identities = Object.keys(allResults)
     .map(address => allResults[address])
     .filter(
       identity =>
-        identity.name.toLowerCase().includes(lowercaseQuery) ||
-        identity.remarks.toLowerCase().includes(lowercaseQuery) ||
-        identity.identifier.toLowerCase().includes(lowercaseQuery)
+        isQueryMatch(identity.name, lowercaseQuery) ||
+        isQueryMatch(identity.remarks, lowercaseQuery) ||
+        isQueryMatch(identity.source, lowercaseQuery) ||
+        isQueryMatch(identity.identifier, lowercaseQuery)
     );
 
   return { identities };
