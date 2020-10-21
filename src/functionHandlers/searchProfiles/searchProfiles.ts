@@ -7,8 +7,8 @@ import { memoize } from "../../common/utils";
 
 interface Identity {
   name: string;
-  remarks: string;
   source: string;
+  remarks: string;
   identifier: string;
 }
 
@@ -34,7 +34,7 @@ const searchProfiles = async (event: APIGatewayEvent) => {
   );
 
   const isQueryMatch = (field: string | undefined, queryText: string) => {
-    if (field === undefined) return false; // skip if google sheet cell is undefined
+    if (!field) return false; // skip if google sheet cell is undefined
     return field.toLowerCase().includes(queryText);
   };
 
