@@ -5,6 +5,10 @@ import { sheetsToJson } from "../../services/sheets";
 import { config } from "../../config";
 import { memoize } from "../../common/utils";
 
+const DEFAULT_OFFSET = 0;
+const DEFAULT_LIMIT = 20;
+const MAX_LIMIT = 1000;
+
 interface Identity {
   name: string;
   source: string;
@@ -16,10 +20,21 @@ interface Identities {
   [identifier: string]: Identity;
 }
 
+interface QueryParameters {
+  q?: string;
+  limit?: string;
+  offset?: string;
+}
+
 const searchProfiles = async (event: APIGatewayEvent) => {
-  const query = event.queryStringParameters?.q;
+  if (!event.queryStringParameters) throw new createHttpError.BadRequest("No query string parameters provided");
+  const { q: query, limit: limitStr, offset: offsetStr } = event.queryStringParameters as QueryParameters;
   if (!query) throw new createHttpError.BadRequest("Query string is not defined");
   if (query.length < 3) throw new createHttpError.BadRequest("Query string needs to be at least 3 characters");
+
+  const limit = limitStr && !Number.isNaN(Number(limitStr)) ? Number(limitStr) : DEFAULT_LIMIT;
+  if (limit > MAX_LIMIT) throw new createHttpError.BadRequest(`Max page size exceeds ${MAX_LIMIT}`);
+  const offset = offsetStr && !Number.isNaN(Number(offsetStr)) ? Number(offsetStr) : DEFAULT_OFFSET;
 
   const lowercaseQuery = query.toLowerCase();
 
@@ -47,8 +62,9 @@ const searchProfiles = async (event: APIGatewayEvent) => {
         isQueryMatch(identity.source, lowercaseQuery) ||
         isQueryMatch(identity.identifier, lowercaseQuery)
     );
+  const pagedResults = identities.slice(offset, offset + limit);
 
-  return { identities };
+  return { identities: pagedResults, count: pagedResults.length, total: identities.length };
 };
 
 export const handler = restrictedRequestHandler(searchProfiles);
