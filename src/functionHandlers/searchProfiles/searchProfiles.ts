@@ -62,9 +62,9 @@ const searchProfiles = async (event: APIGatewayEvent) => {
         isQueryMatch(identity.source, lowercaseQuery) ||
         isQueryMatch(identity.identifier, lowercaseQuery)
     );
-  const pagedResults = identities.splice(offset, limit);
+  const pagedResults = identities.slice(offset, offset + limit);
 
-  return { identities: pagedResults };
+  return { identities: pagedResults, count: pagedResults.length, total: identities.length };
 };
 
 export const handler = restrictedRequestHandler(searchProfiles);
